@@ -23,10 +23,18 @@ void main() {
           'given inputted pin is empty when digit is pressed then inputted pin should be added',
           () {
         // Arrange
+        loginViewModel.onDigitPressed(1, MockBuildContext());
+        loginViewModel.onDigitPressed(2, MockBuildContext());
+        loginViewModel.onDigitPressed(3, MockBuildContext());
+        loginViewModel.onDigitPressed(4, MockBuildContext());
+        loginViewModel.onDigitPressed(5, MockBuildContext());
+        loginViewModel.onDigitPressed(6, MockBuildContext());
 
-        // Act
+        // Act/When
+        loginViewModel.onDigitPressed(7, MockBuildContext());
 
         // Assert
+        expect(loginViewModel.inputtedPin, "123456");
       }, tags: 'unit');
 
       test(
@@ -39,8 +47,47 @@ void main() {
     group('onDeleteButtonPressed', () {
       test(
           'given inputted pin is not empty when delete button is click then last digit from inputtedPin will be removed',
-          () {},
-          tags: 'unit');
+          () {
+        // Arrange
+        loginViewModel.onDigitPressed(1, MockBuildContext());
+        loginViewModel.onDigitPressed(2, MockBuildContext());
+        loginViewModel.onDigitPressed(3, MockBuildContext());
+
+        // Act/When
+        loginViewModel.onDeleteButtonPressed();
+
+        // Assert
+        expect(loginViewModel.inputtedPin, "12");
+      }, tags: 'unit');
+    });
+
+    group('onDeleteButtonPressedNoDigit', () {
+      test(
+          'given inputted pin is empty when delete button is click then nothing happen',
+          () {
+        // Arrange
+
+        // Act/When
+        loginViewModel.onDeleteButtonPressed();
+
+        // Assert
+        expect(loginViewModel.inputtedPin, "");
+      }, tags: 'unit');
+    });
+
+    group('onDeleteButtonPressedOneDigit', () {
+      test(
+          'given inputted pin is one digit when delete button is click then number remain "1"',
+          () {
+        // Arrange
+        loginViewModel.onDigitPressed(1, MockBuildContext());
+
+        // Act/When
+        loginViewModel.onDeleteButtonPressed();
+
+        // Assert
+        expect(loginViewModel.inputtedPin, "");
+      }, tags: 'unit');
     });
 
     group('navigation', () {});

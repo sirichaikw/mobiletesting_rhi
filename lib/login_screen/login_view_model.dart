@@ -22,13 +22,28 @@ class LoginViewModel extends ChangeNotifier {
   bool get isLoading => _isLoading;
 
   //workshop 1
-  void onDigitPressed(int digit, BuildContext context) {}
+  void onDigitPressed(int digit, BuildContext context) {
+    _addPinDigit(digit);
+  }
+
   Future<void> onShowErrorDialogButtonPressed(BuildContext context) async {
     _showErrorDialog("Workshop1", context);
   }
 
   //workshop 1
-  void _addPinDigit(int digit) {}
+  void _addPinDigit(int digit) {
+    if (_inputtedPin.length < 6) {
+      _inputtedPin += digit.toString();
+    }
+    notifyListeners();
+  }
+
+  void _removePinDigit() {
+    if (_inputtedPin.length > 0) {
+      _inputtedPin = _inputtedPin.substring(0, _inputtedPin.length - 1);
+    }
+    notifyListeners();
+  }
 
   //workshop 4
   Future<void> _submitPin(BuildContext context) async {
@@ -75,5 +90,7 @@ class LoginViewModel extends ChangeNotifier {
   }
 
   //workshop 2
-  void onDeleteButtonPressed() {}
+  void onDeleteButtonPressed() {
+    _removePinDigit();
+  }
 }
